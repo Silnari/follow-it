@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="common/header :: common-header"></head>
+<body>
+<nav th:replace="common/navbar :: common-navbar"></nav>
+<div class="d-flex">
+    <div>
+        <div id="userInfo">
+            <span th:if="${user == null}">No logged user, please select one from the list below</span>
+            <div th:if="${user != null}">
+                <span th:text="'Logged as ' + ${user.login}"></span>
+                <span th:text="'First name ' + ${user.firstName}"></span>
+                <span th:text="'Last name ' + ${user.lastName}"></span>
+            </div>
+        </div>
+        <div id="userList">
+            <h4>Login as:</h4>
+            <div class="list-group">
+                <div th:each="user : ${userList}">
+                    <a th:href="'/' + ${user.login}" class="list-group-item list-group-item-action"
+                       th:text="${user.login}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
