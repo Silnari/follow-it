@@ -4,23 +4,36 @@
 <body>
 <nav th:replace="common/navbar :: common-navbar"></nav>
 <div class="d-flex">
-    <div>
-        <div id="userInfo">
-            <span th:if="${user == null}">No logged user, please select one from the list below</span>
-            <div th:if="${user != null}">
-                <span th:text="'Logged as ' + ${user.login}"></span>
-                <span th:text="'First name ' + ${user.firstName}"></span>
-                <span th:text="'Last name ' + ${user.lastName}"></span>
-            </div>
+    <div class="w-25 p-2 pl-3">
+        <div id="userInfo" class="mb-3" style="height: 108px">
+            <span th:if="${loggedUser == null}">No logged user, please select one from the list below</span>
+            <fieldset th:if="${loggedUser != null}" class="border">
+                <legend class="ml-3 w-auto" th:text="'Logged as ' + ${loggedUser.login}"></legend>
+                <ul>
+                    <li th:text="'First name: ' + ${loggedUser.firstName}"></li>
+                    <li th:text="'Last name: ' + ${loggedUser.lastName}"></li>
+                </ul>
+            </fieldset>
         </div>
         <div id="userList">
             <h4>Login as:</h4>
-            <div class="list-group">
-                <div th:each="user : ${userList}">
-                    <a th:href="'/' + ${user.login}" class="list-group-item list-group-item-action"
-                       th:text="${user.login}"></a>
-                </div>
-            </div>
+            <table class="table table-hover table-bordered">
+                <tbody>
+                <tr th:each="user : ${userList}" th:data="${user.login}" class="clickable-row"
+                    th:onclick="javascript:rowClicked(this.getAttribute('data'));">
+                    <td>
+                        <span th:text="${user.login}"></span>
+                        <i th:if="${loggedUser != null && loggedUser.login == user.login}" style="color: #563d7c"
+                           class="fas fa-eye float-right"></i>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <script>
+                function rowClicked(value) {
+                    location.href = "/" + value;
+                }
+            </script>
         </div>
     </div>
 </div>

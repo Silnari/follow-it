@@ -9,4 +9,5 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
 
     User findByLogin(String login);
     List<User> findByFollowingLogin(String login);
+    boolean existsByLogin(String login);
 }

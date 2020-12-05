@@ -16,15 +16,14 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
-        model.addAttribute("currentUser", null);
+        model.addAttribute("loggedUser", null);
         model.addAttribute("userList", userService.getAll());
         return "index";
     }
 
     @GetMapping("/{user}")
     public String home(Model model, @PathVariable String user) {
-        System.out.println(user);
-        model.addAttribute("user", userService.findUser(user));
+        model.addAttribute("loggedUser", userService.isUserInDb(user) ? userService.findUser(user) : null);
         model.addAttribute("userList", userService.getAll());
         return "index";
     }

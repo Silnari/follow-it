@@ -18,6 +18,10 @@ public class UserService {
         return userRepository.findByLogin(login);
     }
 
+    public boolean isUserInDb(String login) {
+        return userRepository.existsByLogin(login);
+    }
+
     public List<User> getAll() {
         return ImmutableList.copyOf(userRepository.findAll());
     }

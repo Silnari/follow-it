@@ -7,3 +7,7 @@
     text-decoration: none;
     color: azure;
 }
+
+.clickable-row:hover {
+    cursor: pointer;
+}

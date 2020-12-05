@@ -25,6 +25,8 @@ public class User {
     @Relationship(type = "FOLLOWS")
     public Set<User> following;
 
+    public User() {}
+
     public User(String login, String firstName, String lastName) {
         sponsors = new ArrayList<>();
         following = new HashSet<>();
