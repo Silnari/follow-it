@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,10 +32,17 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public List<User> getRecommendedToFollow(User user) {
+    public Set<User> getRecommendedToFollow(User user) {
         List<String> followingLogin = user.getFollowing().stream().map(User::getLogin).collect(Collectors.toList());
         followingLogin.add(user.getLogin());
-        return getAll().stream().filter(u -> !followingLogin.contains(u.getLogin())).collect(Collectors.toList());
+        List<String> recommendedList = user.getFollowing().stream()
+                .map(u -> userRepository.findByLogin(u.getLogin()))
+                .map(User::getFollowing).flatMap(Collection::stream)
+                .filter(u -> !followingLogin.contains(u.getLogin()))
+                .map(User::getLogin)
+                .collect(Collectors.toList());
+        recommendedList.sort(Comparator.comparing(u -> Collections.frequency(recommendedList, u)).reversed());
+        return new LinkedHashSet<>(recommendedList).stream().map(userRepository::findByLogin).limit(5).collect(Collectors.toSet());
     }
 
     public void follow(User user, User toFollow) {
