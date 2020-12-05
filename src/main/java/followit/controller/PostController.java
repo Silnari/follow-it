@@ -21,6 +21,6 @@ public class PostController extends AbstractController {
         post.setPostedAt(new Date());
         post.setAuthor(loggedUser);
         postService.addPost(post);
-        return new RedirectView("/logged/" + loggedUser.getLogin());
+        return redirectToHome();
     }
 }

@@ -29,4 +29,15 @@ public class UserService {
     public void addUser(User user) {
         userRepository.save(user);
     }
+
+    public void follow(User user, User toFollow) {
+        System.out.println("to follow login:" + toFollow.getLogin());
+
+        user = userRepository.findByLogin(user.getLogin());
+        toFollow = userRepository.findByLogin(toFollow.getLogin());
+        System.out.println("user login:" + user.getLogin());
+        System.out.println("to follow login:" + toFollow.getLogin());
+        user.follows(toFollow);
+        userRepository.save(user);
+    }
 }

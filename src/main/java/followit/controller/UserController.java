@@ -8,10 +8,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequiredArgsConstructor
-public class UserController {
+public class UserController extends AbstractController {
 
     private final UserService userService;
 
@@ -31,5 +32,11 @@ public class UserController {
             model.addAttribute("addedMessage", "User added successfully!");
         }
         return "user/add";
+    }
+
+    @PostMapping("/follow")
+    public RedirectView follow(@ModelAttribute User toFollow) {
+        userService.follow(loggedUser, toFollow);
+        return redirectToHome();
     }
 }

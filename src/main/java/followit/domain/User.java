@@ -1,6 +1,7 @@
 package followit.domain;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.neo4j.ogm.annotation.GeneratedValue;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
@@ -11,7 +12,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @NodeEntity
 public class User {
 
@@ -23,9 +25,12 @@ public class User {
     @Relationship(type = "PARTNERSHIP")
     private List<Partnership> sponsors;
     @Relationship(type = "FOLLOWS")
-    public Set<User> following;
+    private Set<User> following;
 
-    public User() {}
+    public User() {
+        sponsors = new ArrayList<>();
+        following = new HashSet<>();
+    }
 
     public User(String login, String firstName, String lastName) {
         sponsors = new ArrayList<>();

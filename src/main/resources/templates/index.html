@@ -38,15 +38,14 @@
     </div>
 
     <div class="w-50 p-2">
-
         <div id="newPost" class="mt-2" style="height: 180px">
-            <span th:if="${loggedUser == null}">You cannot post anything unless you are logged in</span>
+            <span th:if="${loggedUser == null}">Log in to post your thoughts</span>
             <div th:if="${loggedUser != null}">
                 <form th:action="@{/add-post}" th:object="${newPost}" method="post">
                     <div class="form-group">
                         <label for="post">Add post</label>
                         <textarea class="form-control" id="post" rows="3" placeholder="Write what you think..."
-                                  th:field="${newPost.content}" style="resize: none"></textarea>
+                                  th:field="${newPost.content}" style="resize: none" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-secondary">Post!</button>
                 </form>
@@ -68,6 +67,38 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <div class="w-25 p-2">
+        <fieldset id="recommended" class="border p-2 pl-3">
+            <legend class="w-auto">Recommended to follow</legend>
+            <span th:if="${loggedUser == null}">Log in to see your recommendations</span>
+            <table class="w-100" th:if="${loggedUser != null}">
+                <tbody>
+                <tr th:each="user: ${recommendedUsers}">
+                    <td>
+                        <form th:action="@{/follow}" th:object="${newFollowing}" method="post">
+                            <span th:text="${user.login}"></span>
+                            <input type="hidden" th:value="${user.login}" name="login"/>
+                            <button type="submit" class="btn btn-danger btn-sm float-right mr-5">❤</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+
+        <fieldset id="following" class="border p-2 pl-3">
+            <legend class="w-auto">Following</legend>
+            <span th:if="${loggedUser == null}">Log in to see your followers</span>
+            <table class="w-100" th:if="${loggedUser != null}">
+                <tbody>
+                <tr th:each="user: ${followedUsers}">
+                    <td th:text="${user.login}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
     </div>
 </div>
 </body>
