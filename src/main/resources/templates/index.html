@@ -31,9 +31,41 @@
             </table>
             <script>
                 function rowClicked(value) {
-                    location.href = "/" + value;
+                    location.href = "/logged/" + value;
                 }
             </script>
+        </div>
+    </div>
+
+    <div class="w-50 p-2">
+
+        <div id="newPost" class="mt-2" style="height: 180px">
+            <span th:if="${loggedUser == null}">You cannot post anything unless you are logged in</span>
+            <div th:if="${loggedUser != null}">
+                <form th:action="@{/add-post}" th:object="${newPost}" method="post">
+                    <div class="form-group">
+                        <label for="post">Write what you think...</label>
+                        <textarea class="form-control" id="post" rows="3" th:field="${newPost.content}"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-secondary">Post!</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="postList" class="mt-2 w-100">
+            <table class="w-100">
+                <tbody>
+                <tr th:each="post : ${postList}">
+                    <td>
+                        <div class="shadow-sm p-3 mb-5 post rounded w-100">
+                            <strong th:text="${post.author.login}"></strong>
+                            <p class="date" th:text="${post.postedAt}"></p>
+                            <p th:text="${post.content}"></p>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

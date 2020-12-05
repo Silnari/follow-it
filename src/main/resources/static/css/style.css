@@ -11,3 +11,12 @@
 .clickable-row:hover {
     cursor: pointer;
 }
+
+.date {
+    font-size: 50%;
+    color: #5b5b5b;
+}
+
+.post {
+    background-color: #e4dff5;
+}
