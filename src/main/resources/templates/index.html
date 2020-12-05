@@ -44,8 +44,9 @@
             <div th:if="${loggedUser != null}">
                 <form th:action="@{/add-post}" th:object="${newPost}" method="post">
                     <div class="form-group">
-                        <label for="post">Write what you think...</label>
-                        <textarea class="form-control" id="post" rows="3" th:field="${newPost.content}"></textarea>
+                        <label for="post">Add post</label>
+                        <textarea class="form-control" id="post" rows="3" placeholder="Write what you think..."
+                                  th:field="${newPost.content}" style="resize: none"></textarea>
                     </div>
                     <button type="submit" class="btn btn-secondary">Post!</button>
                 </form>

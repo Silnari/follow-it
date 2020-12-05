@@ -22,6 +22,6 @@ public class PostService {
 
     public List<Post> getAll() {
         return ImmutableList.copyOf(postRepository.findAll()).stream()
-                .sorted(Comparator.comparing(Post::getPostedAt)).collect(Collectors.toList());
+                .sorted(Comparator.comparing(Post::getPostedAt).reversed()).collect(Collectors.toList());
     }
 }
