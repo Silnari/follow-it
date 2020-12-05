@@ -39,4 +39,10 @@ public class UserController extends AbstractController {
         userService.follow(loggedUser, toFollow);
         return redirectToHome();
     }
+
+    @PostMapping("/unfollow")
+    public RedirectView unfollow(@ModelAttribute User toUnfollow) {
+        userService.unfollow(loggedUser, toUnfollow);
+        return redirectToHome();
+    }
 }

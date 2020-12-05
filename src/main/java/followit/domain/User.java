@@ -43,4 +43,8 @@ public class User {
     public void follows(User user) {
         following.add(user);
     }
+
+    public void unfollow(User user) {
+        following.removeIf(u -> u.getLogin().equals(user.getLogin()));
+    }
 }

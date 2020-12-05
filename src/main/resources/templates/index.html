@@ -94,7 +94,13 @@
             <table class="w-100" th:if="${loggedUser != null}">
                 <tbody>
                 <tr th:each="user: ${followedUsers}">
-                    <td th:text="${user.login}"></td>
+                    <td>
+                        <form th:action="@{/unfollow}" th:object="${unfollow}" method="post">
+                            <span th:text="${user.login}"></span>
+                            <input type="hidden" th:value="${user.login}" name="login"/>
+                            <button type="submit" class="btn btn-dark btn-sm float-right mr-5">💔</button>
+                        </form>
+                    </td>
                 </tr>
                 </tbody>
             </table>
