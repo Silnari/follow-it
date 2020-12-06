@@ -7,9 +7,7 @@ import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Relationship;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -22,18 +20,14 @@ public class User {
     private String login;
     private String firstName;
     private String lastName;
-    @Relationship(type = "PARTNERSHIP")
-    private List<Partnership> sponsors;
     @Relationship(type = "FOLLOWS")
     private Set<User> following;
 
     public User() {
-        sponsors = new ArrayList<>();
         following = new HashSet<>();
     }
 
     public User(String login, String firstName, String lastName) {
-        sponsors = new ArrayList<>();
         following = new HashSet<>();
         this.login = login;
         this.firstName = firstName;
