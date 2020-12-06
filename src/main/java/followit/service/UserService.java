@@ -28,21 +28,18 @@ public class UserService {
         return ImmutableList.copyOf(userRepository.findAll());
     }
 
+    public List<User> getMostFollowed() {
+        return userRepository.findMostFollowed();
+    }
+
     public void addUser(User user) {
         userRepository.save(user);
     }
 
-    public Set<User> getRecommendedToFollow(User user) {
-        List<String> followingLogin = user.getFollowing().stream().map(User::getLogin).collect(Collectors.toList());
-        followingLogin.add(user.getLogin());
-        List<String> recommendedList = user.getFollowing().stream()
-                .map(u -> userRepository.findByLogin(u.getLogin()))
-                .map(User::getFollowing).flatMap(Collection::stream)
-                .filter(u -> !followingLogin.contains(u.getLogin()))
-                .map(User::getLogin)
-                .collect(Collectors.toList());
-        recommendedList.sort(Comparator.comparing(u -> Collections.frequency(recommendedList, u)).reversed());
-        return new LinkedHashSet<>(recommendedList).stream().map(userRepository::findByLogin).limit(5).collect(Collectors.toSet());
+    public List<User> getRecommendedToFollow(User user) {
+        List<User> toReturn = user.getFollowing().size() > 3 ? userRepository.findRecommendedToFollow(user.getLogin()) :
+                getMostFollowed().stream().filter(u -> !u.getLogin().equals(user.getLogin())).collect(Collectors.toList());
+        return toReturn.stream().limit(5).collect(Collectors.toList());
     }
 
     public void follow(User user, User toFollow) {
