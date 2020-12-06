@@ -1,18 +1,59 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-<head th:replace="common/header :: common-header"></head>
+<head>
+    <meta charset="UTF-8">
+    <title>Follow it!</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://kit.fontawesome.com/f23518e6d6.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+            integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+            crossorigin="anonymous"></script>
+</head>
+
 <body>
-<nav th:replace="common/navbar :: common-navbar"></nav>
+<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #563d7c;">
+    <div class="ml-5"></div>
+    <a class="navbar-brand" href="/"><img th:src="@{/img/logo.png}" height="25px" class="mr-1 mb-1">Follow it!</a>
+</nav>
+
 <div class="d-flex">
     <div class="w-25 p-2 pl-3">
-        <div id="userInfo" class="mb-3" style="height: 108px">
-            <span th:if="${loggedUser == null}">No logged user, please select one from the list below</span>
-            <fieldset th:if="${loggedUser != null}" class="border">
-                <legend class="ml-3 w-auto" th:text="'Logged as ' + ${loggedUser.login}"></legend>
-                <ul>
+        <div id="userInfo" class="mb-3">
+            <fieldset class="border p-2" style="height: 160px">
+                <legend class="ml-3 w-auto">User details</legend>
+                <span th:if="${loggedUser == null}">No logged user, please select one from the list below</span>
+                <ul th:if="${loggedUser != null}">
+                    <li th:text="'Login: ' + ${loggedUser.login}"></li>
                     <li th:text="'First name: ' + ${loggedUser.firstName}"></li>
                     <li th:text="'Last name: ' + ${loggedUser.lastName}"></li>
+                    <li th:text="'Number of followers: ' + ${numberOfFollowing}"></li>
                 </ul>
+            </fieldset>
+        </div>
+        <div id="addUser" class="mb-3">
+            <div th:if="${addedMessage != null}" class="alert alert-secondary mt-3 alert-dismissable" role="alert">
+                <span th:text="${addedMessage}"></span>
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+            </div>
+            <fieldset class="border p-2">
+                <legend class="ml-3 w-auto">Add user</legend>
+                <form th:action="@{/add}" th:object="${newUser}" method="post">
+                    <input class="form-control form-control-sm mb-1" type="text" id="login" placeholder="Login"
+                           th:field="*{login}" th:required="true"/>
+                    <input class="form-control form-control-sm mb-1" type="text" id="firstName" placeholder="First name"
+                           th:field="*{firstName}" th:required="true"/>
+                    <input class="form-control form-control-sm mb-1" type="text" id="lastName" placeholder="Last name"
+                           th:field="*{lastName}" th:required="true"/>
+                    <input type="submit" class="btn btn-secondary btn-sm float-right" value="Add"/>
+                </form>
             </fieldset>
         </div>
         <div id="userList">
@@ -47,7 +88,7 @@
                         <textarea class="form-control" id="post" rows="3" placeholder="Write what you think..."
                                   th:field="${newPost.content}" style="resize: none" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-secondary">Post!</button>
+                    <button type="submit" class="btn btn-secondary">Send!</button>
                 </form>
             </div>
         </div>

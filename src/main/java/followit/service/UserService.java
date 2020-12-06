@@ -32,6 +32,10 @@ public class UserService {
         return userRepository.findMostFollowed();
     }
 
+    public int getFollowingNumber(String userLogin) {
+        return userRepository.findByFollowingLogin(userLogin).size();
+    }
+
     public void addUser(User user) {
         userRepository.save(user);
     }
