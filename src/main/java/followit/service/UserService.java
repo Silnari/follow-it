@@ -28,8 +28,8 @@ public class UserService {
         return ImmutableList.copyOf(userRepository.findAll());
     }
 
-    public List<User> getMostFollowed() {
-        return userRepository.findMostFollowed();
+    public List<User> getMostFollowedWithoutUser(String login) {
+        return userRepository.findMostFollowedWithoutGiven(login);
     }
 
     public int getFollowingNumber(String userLogin) {
@@ -41,12 +41,12 @@ public class UserService {
     }
 
     public List<User> getRecommendedToFollow(User user) {
-        List<String> followingLogins = user.getFollowing().stream().map(User::getLogin).collect(Collectors.toList());
-        followingLogins.add(user.getLogin());
-        List<User> toReturn = user.getFollowing().size() > 3 ? userRepository.findRecommendedToFollow(user.getLogin()) :
-                getMostFollowed().stream()
-                        .filter(u -> !followingLogins.contains(u.getLogin())).collect(Collectors.toList());
-        return toReturn.stream().limit(5).collect(Collectors.toList());
+        List<User> recommendedList = userRepository.findRecommendedToFollow(user.getLogin());
+        int recommendedListSize = recommendedList.size();
+        if (recommendedListSize >= 5) return recommendedList.stream().limit(5).collect(Collectors.toList());
+        recommendedList.addAll(getMostFollowedWithoutUser(user.getLogin()).stream()
+                .filter(u -> !recommendedList.contains(u)).limit(5 - recommendedListSize).collect(Collectors.toList()));
+        return recommendedList;
     }
 
     public void follow(User user, User toFollow) {

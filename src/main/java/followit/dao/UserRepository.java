@@ -10,9 +10,10 @@ import java.util.List;
 public interface UserRepository extends Neo4jRepository<User, Long> {
 
     @Query("MATCH (u:User) <- [:FOLLOWS] - (following:User) " +
+            "WHERE NOT u.login = $userLogin " +
             "WITH u, count(following) AS howManyFollowing " +
             "RETURN u ORDER BY howManyFollowing DESC")
-    List<User> findMostFollowed();
+    List<User> findMostFollowedWithoutGiven(@Param("userLogin") String userLogin);
     @Query("MATCH (u:User{login: $userLogin}) - [:FOLLOWS] -> (following:User) <- [:FOLLOWS] -(coFollower:User) " +
             "WHERE NOT (u) - [:FOLLOWS] -> (coFollower) " +
             "WITH coFollower, count(following) AS n " +
