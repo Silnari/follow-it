@@ -41,8 +41,11 @@ public class UserService {
     }
 
     public List<User> getRecommendedToFollow(User user) {
+        List<String> followingLogins = user.getFollowing().stream().map(User::getLogin).collect(Collectors.toList());
+        followingLogins.add(user.getLogin());
         List<User> toReturn = user.getFollowing().size() > 3 ? userRepository.findRecommendedToFollow(user.getLogin()) :
-                getMostFollowed().stream().filter(u -> !u.getLogin().equals(user.getLogin())).collect(Collectors.toList());
+                getMostFollowed().stream()
+                        .filter(u -> !followingLogins.contains(u.getLogin())).collect(Collectors.toList());
         return toReturn.stream().limit(5).collect(Collectors.toList());
     }
 
