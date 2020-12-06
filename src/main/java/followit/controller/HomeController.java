@@ -36,6 +36,7 @@ public class HomeController extends AbstractController {
 
         model.addAttribute("newUser", new User());
         model.addAttribute("newPost", new Post());
+        model.addAttribute("userToFind", new User());
         model.addAttribute("postList", postService.getPostsForUser(loggedUser));
         model.addAttribute("loggedUser", loggedUser);
         model.addAttribute("userList", userService.getAll());

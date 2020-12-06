@@ -26,6 +26,13 @@ public class UserController extends AbstractController {
         return redirectToHome();
     }
 
+    @PostMapping("/find")
+    public RedirectView find(@ModelAttribute User userToFound, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("foundedUser", userService.findUser(userToFound.getLogin()));
+        System.out.println(((User) redirectAttributes.getFlashAttributes().get("foundedUser")).getLogin());
+        return redirectToHome();
+    }
+
     @PostMapping("/follow")
     public RedirectView follow(@ModelAttribute User toFollow) {
         userService.follow(loggedUser, toFollow);

@@ -17,7 +17,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     public User findUser(String login) {
-        return userRepository.findByLogin(login);
+        return userRepository.findByLoginIgnoreCase(login);
     }
 
     public boolean isUserInDb(String login) {
@@ -50,15 +50,15 @@ public class UserService {
     }
 
     public void follow(User user, User toFollow) {
-        user = userRepository.findByLogin(user.getLogin());
-        user.follows(userRepository.findByLogin(toFollow.getLogin()));
+        user = userRepository.findByLoginIgnoreCase(user.getLogin());
+        user.follows(userRepository.findByLoginIgnoreCase(toFollow.getLogin()));
         userRepository.save(user);
     }
 
     @Transactional
     public void unfollow(User user, User toUnfollow) {
-        user = userRepository.findByLogin(user.getLogin());
-        user.unfollow(userRepository.findByLogin(toUnfollow.getLogin()));
+        user = userRepository.findByLoginIgnoreCase(user.getLogin());
+        user.unfollow(userRepository.findByLoginIgnoreCase(toUnfollow.getLogin()));
         userRepository.save(user);
     }
 }

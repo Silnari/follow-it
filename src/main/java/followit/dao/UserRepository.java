@@ -18,7 +18,7 @@ public interface UserRepository extends Neo4jRepository<User, Long> {
             "WITH coFollower, count(following) AS n " +
             "RETURN coFollower ORDER BY n DESC")
     List<User> findRecommendedToFollow(@Param("userLogin") String userLogin);
-    User findByLogin(String login);
+    User findByLoginIgnoreCase(String login);
     List<User> findByFollowingLogin(String login);
     boolean existsByLogin(String login);
 }

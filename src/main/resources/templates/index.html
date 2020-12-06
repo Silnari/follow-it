@@ -47,11 +47,11 @@
                 <legend class="ml-3 w-auto">Add user</legend>
                 <form th:action="@{/add}" th:object="${newUser}" method="post">
                     <input class="form-control form-control-sm mb-1" type="text" id="login" placeholder="Login"
-                           th:field="*{login}" th:required="true"/>
+                           th:field="*{login}" required/>
                     <input class="form-control form-control-sm mb-1" type="text" id="firstName" placeholder="First name"
-                           th:field="*{firstName}" th:required="true"/>
+                           th:field="*{firstName}" required/>
                     <input class="form-control form-control-sm mb-1" type="text" id="lastName" placeholder="Last name"
-                           th:field="*{lastName}" th:required="true"/>
+                           th:field="*{lastName}" required/>
                     <input type="submit" class="btn btn-secondary btn-sm float-right" value="Add"/>
                 </form>
             </fieldset>
@@ -128,7 +128,24 @@
                 </tbody>
             </table>
         </fieldset>
-
+        <fieldset id="findFollowing" class="border mb-3 p-2 pl-3">
+            <legend  class="w-auto">Find to follow</legend>
+            <span th:if="${loggedUser == null}">Log in to find new followers</span>
+            <div th:if="${loggedUser != null}">
+                <form th:action="@{/find}" th:object="${userToFind}" method="post">
+                    <input class="form-control form-control-sm mb-1" type="text" placeholder="Login"
+                           th:field="*{login}" required/>
+                    <input type="submit" class="btn btn-secondary btn-sm float-right" value="Find"/>
+                </form>
+                <div th:if="${foundedUser != null}" class="mt-1">
+                    <form th:action="@{/follow}" th:object="${newFollowing}" method="post">
+                        <span th:text="${foundedUser.login}"></span>
+                        <input type="hidden" th:value="${foundedUser.login}" name="login"/>
+                        <button type="submit" class="btn btn-light btn-sm float-right mr-5">❤</button>
+                    </form>
+                </div>
+            </div>
+        </fieldset>
         <fieldset id="following" class="border p-2 pl-3">
             <legend class="w-auto">Following</legend>
             <span th:if="${loggedUser == null}">Log in to see your followers</span>
