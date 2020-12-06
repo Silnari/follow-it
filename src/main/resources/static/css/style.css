@@ -1,13 +1,3 @@
-.nav-header {
-    color: azure;
-    font-size: 140%;
-}
-
-.nav-header:hover {
-    text-decoration: none;
-    color: azure;
-}
-
 .clickable-row:hover {
     cursor: pointer;
 }
