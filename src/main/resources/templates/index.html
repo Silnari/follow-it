@@ -19,13 +19,13 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #563d7c;">
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background-color: #563d7c;">
     <div class="ml-5"></div>
     <a class="navbar-brand" href="/"><img th:src="@{/img/logo.png}" height="25px" class="mr-1 mb-1">Follow it!</a>
 </nav>
 
-<div class="d-flex">
-    <div class="w-25 p-2 pl-3">
+<div class="d-flex position-relative">
+    <div class="w-25 p-2 pl-3 position-fixed overflow-auto vh-90">
         <div id="userInfo" class="mb-3">
             <fieldset class="border p-2" style="height: 160px">
                 <legend class="ml-3 w-auto">User details</legend>
@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    <div class="w-50 p-2">
+    <div class="w-50 p-2" style="margin-left: 25%">
         <div id="newPost" class="mt-2" style="height: 180px">
             <span th:if="${loggedUser == null}">Log in to post your thoughts</span>
             <div th:if="${loggedUser != null}">
@@ -110,7 +110,7 @@
         </div>
     </div>
 
-    <div class="w-25 p-2">
+    <div class="w-25 p-2 position-fixed overflow-auto vh-90" style="margin-left: 75%">
         <fieldset id="recommended" class="border p-2 pl-3 mb-3">
             <legend class="w-auto">Recommended to follow</legend>
             <span th:if="${loggedUser == null}">Log in to see your recommendations</span>
